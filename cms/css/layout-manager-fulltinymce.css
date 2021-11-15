@@ -1,0 +1,59 @@
+
+/*--------------------- Media 1 ---------------------*/
+@font-face {
+    font-family: 'Festive';
+    src: url('../../fonts/Festive/Festive-Regular.ttf') format('truetype');
+}
+
+
+.input-content {
+    min-height: 100vh;
+}
+
+.preview-edit {
+    cursor: pointer;
+    padding: 2px 20px;
+    border:1px solid #666;
+    background: #666;
+    color:white;
+    border-radius:15px;
+    margin:6px;
+}
+
+/*--------------------- Pallete ---------------------*/
+
+.edit-line {
+    border:1px dashed #bababa;
+}
+
+.my-container {
+    min-height:0 !important;
+}
+
+
+/*--------------------- Media Elements ---------------------*/
+
+.media-opt, .change-media {
+    padding:10px;
+    cursor: pointer;
+}
+
+.media-opt:hover, .change-media:hover {
+    color:orange;
+}
+
+.layout-opt {
+    padding:10px;
+    border-bottom:1px solid #999; 
+}
+.layout-opt:hover {
+    background-color:rgb(227, 255, 244);
+}
+
+
+.change-media, .media {
+    display: none;
+}
+
+
+

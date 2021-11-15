@@ -1,0 +1,79 @@
+
+/*--------------------- Media 1 ---------------------*/
+@font-face {
+    font-family: 'Festive';
+    src: url('../../fonts/Festive/Festive-Regular.ttf') format('truetype');
+}
+
+
+
+
+.preview-edit {
+    cursor: pointer;
+    padding: 2px 20px;
+    border:1px solid #666;
+    background: #666;
+    color:white;
+    border-radius:15px;
+    margin:6px;
+}
+
+/*--------------------- Pallete ---------------------*/
+/*.dynamic-content > .row, .col-6, .content*/
+.dynamic-content > .row > .col-1, 
+.dynamic-content > .row > .col-2, 
+.dynamic-content > .row > .col-3, 
+.dynamic-content > .row > .col-4, 
+.dynamic-content > .row > .col-5, 
+.dynamic-content > .row > .col-6, 
+.dynamic-content > .row > .col-7, 
+.dynamic-content > .row > .col-8, 
+.dynamic-content > .row > .col-9, 
+.dynamic-content > .row > .col-10, 
+.dynamic-content > .row > .col-11, 
+.dynamic-content > .row > .col-12 
+{
+    border:1px dashed #bababa;
+}
+
+.editor {
+    display: inline-block;
+    width: auto;
+    padding:0 10px;
+    color:#bababa;
+    font-size: 12px;
+    cursor: pointer;
+    overflow: visible;
+}
+
+.my-container {
+    min-height:20vh;
+}
+
+
+/*--------------------- Media Elements ---------------------*/
+
+.media-opt, .change-media {
+    padding:10px;
+    cursor: pointer;
+}
+
+.media-opt:hover, .change-media:hover {
+    color:orange;
+}
+
+.layout-opt {
+    padding:10px;
+    border-bottom:1px solid #999; 
+}
+.layout-opt:hover {
+    background-color:rgb(227, 255, 244);
+}
+
+
+.change-media, .media {
+    display: none;
+}
+
+
+
