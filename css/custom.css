@@ -455,10 +455,12 @@ h2 {
   border-left:1px solid #CCC;
   border-right:1px solid #CCC;
   border-bottom:1px solid #CCC;
+  border-radius:20px;
+  height:30px;
   /*background: #f0f0f0;*/
   background-image: url(../images/magnifier.png);
   background-repeat: no-repeat;
-  background-position: 97% center;
+  background-position: 93% center;
   background-size: 16px;
 }
 

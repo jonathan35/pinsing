@@ -27,7 +27,7 @@ $keyword = true;//Component to search by keyword
 $keywordMustFullWord=false;
 $keywordFields=array('name');
 $filter = true;
-$filFields = array('country', 'state', 'city', 'tour_type');
+$filFields = array('country');//, 'state', 'city', 'tour_type'
 
 
 
@@ -71,6 +71,7 @@ if(!empty($_GET['id'])){
 
 $resize_width['photo'] = 2000;
 $resize_height['photo'] = 1500;
+
 
 $label['size'] = 'Size (sq.ft.)';
 
@@ -150,7 +151,7 @@ $attributes['name'] = array('placeholder' => 'Tour Name');
 $attributes['country'] = array('placeholder' => 'tour Location');
 $attributes['position'] = array('placeholder' => 'A number for sorting');
 
-$remark['photo'] = 'Recommanded size: 1200 x 1000 pixel';
+$remark['photo'] = '<div><small class="text-muted" >Recommanded size: 2000 x 1400 pixel</small></div>';
 
 
 /*if(empty($id)){

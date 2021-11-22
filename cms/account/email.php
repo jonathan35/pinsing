@@ -15,17 +15,17 @@ if($_SESSION['validation']=='YES'){
 $table = 'email';
 $module_name = 'Email';
 $php = 'email';
-$folder = 'content';//auto refresh row once edit modal closed
+$folder = 'account';//auto refresh row once edit modal closed
 $add = true;
 $edit = true;
 $list = true;
 $list_method = 'list';
-$sort = 'order by position ASC, id DESC';
+$sort = 'order by email ASC';
 
 $keyword = false;//Component to search by keyword
 $keywordMustFullWord=false;
 $keywordFields=array('name', 'username');
-$filter = true;
+$filter = false;
 $filFields = array('page');
 
 

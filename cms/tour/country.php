@@ -6,6 +6,7 @@ require_once '../../config/image.php';
 //include '../layout/savelog.php';
 
 
+
 session_start();
 if($_SESSION['validation']=='YES'){
 }else{
@@ -82,6 +83,8 @@ $type['group_id'] = 'select'; $option['group_id'] = array('1'=>'Master Admin', '
 $type['status'] = 'select'; $option['status'] = array('1'=>'Display','2'=>'Hide'); $default_value['status'] = '1';
 //$type['thumbnail_align'] = 'select'; $option['thumbnail_align'] = array('left'=>'Image align left','right'=>'Image align right');
 $type['photo'] = 'image';
+$remark['photo'] = '<div><small class="text-muted" >Recommanded size: 2000 x 1400 pixel</small></div>';
+
 $required['title'] = 'required';
 
 

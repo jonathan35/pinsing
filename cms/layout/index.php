@@ -70,6 +70,14 @@ if($_SESSION['validation']=='YES'){
 
   <div class="col d-none d-md-block text-right" style="float:right">
     <span class="navbar-text">
+      <a href="<?php echo ROOT?>cms/language_switch.php?language=en" <?php if($_SESSION['language'] != 'cn'){?>style="border-bottom:1px solid gray;"<?php }?>>
+        EN 
+      </a> |
+      <a href="<?php echo ROOT?>cms/language_switch.php?language=cn" <?php if($_SESSION['language'] == 'cn'){?>style="border-bottom:1px solid gray;"<?php }?>>
+        文
+      </a>
+    </span>
+    <span class="navbar-text pl-4">
       <a href="<?php echo ROOT?>cms/authentication/change_password">Change Password</a>
     </span>
     <span class="navbar-text pl-4">

@@ -7,19 +7,22 @@ include_once 'head.php';
 $als = sql_read("select * from album where status =? order by position asc, album asc", 's', 1);
 
 $album_cond = '';
-if(!empty($_GET['al'])){//This is tour type
-    
+if(!empty($_GET['al'])){
     
     $album_name = $str_convert->to_query($_GET['al']).'%';
-    $album = sql_read("select id from album where album like ? limit 1", 's', $album_name);
+    $album = sql_read("select id, album from album where album like ? limit 1", 's', $album_name);
     $album_cond = " where album = '".$album['id']."' ";
+}else{
+    $one_photo_cond = ' group by album ';
 }
 
-$photos = sql_read("select album, photo from album_photo $album_cond order by position asc, id desc");
+$photos = sql_read("select album, photo from album_photo $album_cond $one_photo_cond order by position asc, id desc ");
+
 //debug($photos);
 
 foreach((array)$als as $al){
     $albums[$al['id']] = $defender->encrypt('encrypt', $al['album']);
+    $album_names[$al['id']] = $al['album'];
 }
 
 ?>
@@ -40,6 +43,32 @@ foreach((array)$als as $al){
 
     <?php include 'header.php';?>
 
+
+    <?php 
+    
+    if(empty($_GET['al'])){
+        $intro = sql_read('select introduction, background_image from album_intro where id=? limit 1' ,'i', 1);?>
+
+        <div class="row">
+
+            <div class="col-12" style="background-image:url('<?php echo $intro['background_image']?>'); background-size:cover; background-repeat:no-repeat; background-position:center 45%;">
+                <div class="row">
+                    <div class="col-12 col-md-5 pl-md-5">
+                        <div class="row">
+                            <div class="col-12 offset-md-1 flex-center p-5" style="background:rgba(0,0,0,.6); height:440px; font-size:20px; flex-direction:column;">
+                                <h1 style="color:var(--color-main); text-align: left;">Gallery</h1>
+                                <div style="color:white; text-align: left;">
+                                    <?php echo $intro['introduction']?>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-6"></div>
+                </div>
+            </div>
+        </div>
+    <?php }?>
     
     <div ><!--class="my-container"-->
 
@@ -47,23 +76,47 @@ foreach((array)$als as $al){
 
                       
 
-            <div class="col-12 p-5 pr-md-5"><!-- pl-md-5-->
+            <div class="col-12 col-md-10 offset-1 p-5 pr-md-5"><!-- pl-md-5-->
                 <div class="row gallery clearfix">
 
                 <?php        
                                
                 $itemCount=1;
                 $maxPerPage=30;
-
-                foreach((array)$photos as $photo){?>
-                   
+                if(!empty($_GET['al'])){?>
+                    <div class="col-12 pt-4 pb-4">
+                        <a href="<?php echo ROOT?>gallery">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i> Back
+                        </a>
+                        <h1 class="text-center pt-5 pb-3"><?php echo $album['album']?></h1>
+                    </div>
+                    <?php foreach((array)$photos as $photo){?>
+                        
+                        <div class="col-12 col-md-3 page page<?php echo $itemCount?> mb-4" style="">
+                            <a href="<?php echo ROOT.$photo['photo']?>" rel="prettyPhoto[<?php echo $photo['album']?>]">
+                                <div class="bg-cover" style="width:100%; height:220px; background-image:url('<?php echo ROOT.$photo['photo']?>');"></div>
+                            </a>
+                        </div>
+                    <?php 
+                    $itemCount++;
+                    }
+                }else{
+                    foreach((array)$photos as $photo){?>
+                    
                     <div class="col-12 col-md-3 page page<?php echo $itemCount?> mb-4" style="">
-                        <a href="<?php echo ROOT.$photo['photo']?>" rel="prettyPhoto[<?php echo $photo['album']?>]">
-                            <div class="bg-cover" style="width:100%; height:220px; background-image:url('<?php echo ROOT.$photo['photo']?>');"></div>
+                        <a href="<?php echo ROOT?>gallery/<?php echo $str_convert->to_url($album_names[$photo['album']])?>">
+                            <div class="zoom-outter p-3" style="border-radius:15px; background: rgb(255,255,255); background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(230,230,230,1) 100%); border:1px solid #CCC; ">
+                                <div class="bg-cover zoom-inner" style="width:100%; height:220px; background-image:url('<?php echo ROOT.$photo['photo']?>'); border-radius:6px; "></div>
+                            </div>
+                            <div class="text-center" style="font-size:16px;">
+                                <?php echo $album_names[$photo['album']]?>
+                            </div>
+                            
                         </a>
                     </div>
                 <?php 
-                $itemCount++;
+                    $itemCount++;
+                    }
                 }?>
                 </div>
                 <div class="row pt-5">
@@ -103,12 +156,16 @@ foreach((array)$als as $al){
     <div class="row">
         <div class="col-12">
             <div class="row"><div class="col-12"><br><br><br><br><br></div></div>
-            <? include 'footer.php';?>        
+            <?php include 'footer.php';?>        
         </div>
     </div>                
             
 
-
+<style>
+    a:hover {
+        color: black;
+    }
+</style>
 
 
 </body>

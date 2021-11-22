@@ -23,7 +23,8 @@ if(!empty($_GET['country'])){
         }
     }
 }else{
-    $banners = sql_read('select banner from banner where status=? and page=? order by position asc, id desc', 'is', array(1, $page));//, text_in_desktop, text_in_mobile
+    $banners = sql_read('select banner from banner where status=? order by position asc, id desc', 'i', 1);
+    //, text_in_desktop, text_in_mobile and page=? $page
 }
 
 $cb = count((array)$banners);

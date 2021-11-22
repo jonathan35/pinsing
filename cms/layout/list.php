@@ -4,17 +4,23 @@
 </style>
 <?php 
 if($_POST['action']=="Delete"){
+
+	$del_table = $table;
+	if($_SESSION['language'] == 'cn'){
+		$del_table = str_replace($table_en, $table_cn, $table);
+	}
+
 	$items_delete_array=$_POST['productIdList'];
 	if(!empty($_POST['productIdList'])){
 		foreach((array)$items_delete_array as $items_delete){
-			$target_query = mysqli_query($conn, "SELECT * FROM $table WHERE id='$items_delete'") or die(mysqli_error());
+			$target_query = mysqli_query($conn, "SELECT * FROM $del_table WHERE id='$items_delete'") or die(mysqli_error());
 			$target = mysqli_fetch_assoc($target_query);
 			
 			if(!empty($target)){
 				if(!empty($target)){
 					@unlink('../../'.$target['image']);
 				}
-				mysqli_query($conn, "DELETE FROM $table WHERE id='$items_delete'") or die(mysqli_error());			
+				mysqli_query($conn, "DELETE FROM $del_table WHERE id='$items_delete'") or die(mysqli_error());
 			}
 		}
 	}

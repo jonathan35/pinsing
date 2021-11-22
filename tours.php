@@ -3,6 +3,73 @@ require_once 'config/ini.php';
 require_once 'config/security.php';
 include_once 'head.php';
 
+
+$get_cond = $key_cond = '';
+$get_cond = '';
+$sta_cond = ' status=?  ';//and validity_end >? 
+$params[] = 1;
+//$params[] = date('Y-m-d');
+
+$order = ' order by position asc ';//limit 6
+
+
+if(!empty($_POST['keyword'])){//This is tour type    
+    $key_cond = " and name like ? ";
+    $params[] = "%".$_POST['keyword']."%";    
+}
+
+if(!empty($_GET['country'])){
+    $country_name = $str_convert->to_query($_GET['country']);
+    $country = sql_read('select id from country where country like ? limit 1', 's', '%'.$country_name.'%');
+    $get_cond = " and country=? ";
+    $params[] = $country['id'];
+
+}elseif(!empty($_GET['promo'])){
+    $get_cond = " and promotion=? ";
+    $params[] = 'Yes';
+}
+
+/*
+debug($_POST);
+
+echo "select * from tour where $sta_cond $get_cond $order";
+echo '<br>';
+echo str_repeat('s',count($params));echo '<br>';
+debug($params);
+*/
+$tours = sql_read("select * from tour where $sta_cond $key_cond $get_cond $order", str_repeat('s',count($params)), $params);
+
+
+
+
+if(!empty($_POST['keyword']) && !empty($_POST['user_keyword'])){
+    
+    //---------------- Update product_keywords ---------------------
+    $product = sql_read("select id from tour where $sta_cond $key_cond $get_cond $order limit 1", str_repeat('s',count($params)), $params);
+
+    $k['product'] = $product['id'];
+    $k['user_keyword'] = $_POST['user_keyword'];
+    $k['selected_keyword'] = $_POST['keyword'];
+    sql_save("product_keywords", $k);
+    
+
+    //---------------- Update product_analytic > search ---------------------
+    if(!empty($product['id'])){
+        $exist = sql_read("select id, search from product_analytic where product=? limit 1", 'i', $product['id']);
+
+        if(!empty($exist['id'])){
+            $analytic['id'] = $exist['id'];
+            $analytic['search'] = $exist['search'] + 1;
+        }else{
+            $analytic['product'] = $product['id'];
+            $analytic['search'] = 1;
+        }        
+        sql_save("product_analytic", $analytic);
+    }
+}/*
+*/
+
+
 ?>
 
 <html lang="en">
@@ -12,11 +79,11 @@ include_once 'head.php';
     <?php include 'header.php';?>
 
     <?php if(!empty($_GET['promo'])){?>
-        <div class="row" style="">
+        <div class="row mb-5" style="background: orange;">
             <div class="col-12 col-md-5 col-lg-3 offset-md-1 offset-lg-3 p-4 flex-center pt-5 text-center text-md-left" style="height:300px; flex-direction: column;">
                
                 <h1 class="p-0 pt-5 mt-5" style="color:#333; font-size:50px !important;">
-                    Travel & Tour <br>Grab Amazing <span style="color:var(--color-main)">Promotion</span>
+                    Travel & Tour <br>Grab Amazing <span style="color:white">Promotion</span>
                 </h1>
                 
                 <div>
@@ -65,54 +132,34 @@ include_once 'head.php';
                     <div class="tour_list">
 
                         <?php 
-                        //require_once 'config/ini.php';
-                        //require_once 'config/security.php';
-                        //include_once 'head.php';
-
-
-                        $condition = '';
-                        $sta_cond = ' status=?  ';//and validity_end >? 
-                        $params[] = 1;
-                        //$params[] = date('Y-m-d');
-
-                        $order = ' order by position asc ';//limit 6
-
-
-
-                        if(!empty($_GET['country'])){
-                            $country_name = $str_convert->to_query($_GET['country']);
-                            $country = sql_read('select id from country where country like ? limit 1', 's', '%'.$country_name.'%');
-                            $condition = " and country=? ";
-                            $params[] = $country['id'];
-
-                        }elseif(!empty($_GET['promo'])){
-                            $condition = " and promotion=? ";
-                            $params[] = 'Yes';
-                        }
-
-                        /*
-                        debug($_POST);
-
-                        echo "select * from tour where $sta_cond $type_cond $condition $order";
-                        echo '<br>';
-                        echo str_repeat('s',count($params));echo '<br>';
-                        debug($params);
-                        */
-                        $tours = sql_read("select * from tour where $sta_cond $type_cond $condition $order", str_repeat('s',count($params)), $params);
-
-                        //debug($tours);
 
                         if(!isset($tours)){
                             echo '<div class="row pl-2"><div class="col-12 pl-5 pl-md-3 pb-4">No tour found</div></div>';
                         }else{
-                            echo '<div class="row pl-2"><div class="col-12 pl-5 pl-md-3 pb-4">'.count($tours).' tours found</div></div>';    
+                            //echo '<div class="row pl-2"><div class="col-12 pl-5 pl-md-3 pb-4">'.count($tours).' tours found</div></div>';    
                         }
 
                         $itemCount=1;
                         $maxPerPage=15;
                         ?>
                         <div class="row">
-                            <?php foreach((array)$tours as $tour){?>
+                            <?php 
+                            foreach((array)$tours as $tour){
+                                
+                                //---------------- Update product_analytic > display ---------------------
+                                $exist = sql_read("select id, display from product_analytic where product=? limit 1", 'i', $tour['id']);
+
+                                if(!empty($exist['id'])){
+                                    $analytic['id'] = $exist['id'];
+                                    $analytic['display'] = $exist['display'] + 1;
+                                }else{
+                                    $analytic['product'] = $tour['id'];
+                                    $analytic['display'] = 1;
+                                }
+                                
+                                sql_save("product_analytic", $analytic);
+                                
+                                ?>
                             <div class="col-12 col-md-4 mb-4 page page<?php echo $itemCount?>" style=" <?php if($itemCount>$maxPerPage){?> display:none;<?php }?>; ">
 
 

@@ -21,10 +21,10 @@ include_once 'head.php';
           <!--style="background-image: url('<?php echo ROOT?>photo/6178054a51e77.jpg'); background-size:cover;"-->
         
             <div class="row p-lg-5" style="background:#333;  font-family: 'Roboto', Arial, Sans-serif !important;">
-                <div class="col-12 col-md-10 offset-md-1 p-5">
+                <div class="col-12 p-5">
                     <div class="row">
                         <div class="col-12 text-center pb-4 mb-3">
-                            <div class="h1"><div style="color:#EEE;">Promotion</div></div>
+                            <div class="h1"><div style="color:#EEE;" class="lang">Promotion</div></div>
                         </div>
                     </div>
 
@@ -33,7 +33,23 @@ include_once 'head.php';
                             <div id="CarouselPromo" class="carousel slide" data-ride="carousel">
                      
                                 <?php 
-                                $cb = 3;
+
+                                $promos = sql_read("select id, name, price, photo, brief_description from tour where promotion=? order by position asc", 's', array('yes'));
+                                //debug($promos);
+                                $g = $r = 0;
+                                $promotions = array();
+                                foreach($promos as $promo){
+                                    $promotions[$g][] = $promo;
+                                    
+                                    if($r == 2){
+                                        $r = 0;
+                                        $g++;
+                                    }else{
+                                        $r++;
+                                    }
+                                }
+                                //debug($promotions);
+                                $cb = count((array)$promotions);
                                 ?>
                                 <ol class="carousel-indicators modify-indicator">
                                     <?php for($n=0; $n<$cb; $n++){?>
@@ -44,31 +60,32 @@ include_once 'head.php';
 
                                     <div style="overflow:hidden; width:94%; margin-left:3%; ">
 
-<?php for($i=1; $i<=3; $i++){?>
+<?php 
+$i = 1;
+foreach($promotions as $promotion){?>
     <div class="carousel-item <?php if($i==1){?>active<?php }?>" style="height:auto;">
         <div class="row p-4">
-            <?php for($a=1; $a<=3; $a++){?>
-            
+            <?php foreach($promotion as $promo){?>
                 <div class="col-12 col-md-4 pl-4 pr-4 pt-2 pb-2">
                     <div class="row">
                         <div class="col-12" style="box-shadow:0 0 3px rgba(0,0,0,.3); border-radius:2px; overflow:hidden;">
                             <div class="row">
                                 <div class="col-12 col-md-5 pt-3 pb-3 text-center" style="background:var(--color-light);">
-                                    <h3 class="p-1">Package Name 0<?php echo 3*($i - 1)+$a?></h3>
+                                    <h4 class="p-1" style="height:58px; overflow:hidden;"><?php echo $promo['name']?></h4>
                                     
-                                    <div class="p-1" style="color:var(--color-dark)">
-                                        Seen you eyes son show. Far..
+                                    <div class="p-1" style="height:48px; overflow:hidden; color:var(--color-dark)">
+                                        <?php echo $promo['brief_description']?>
                                     </div>
 
                                     <div class="p-1 pt-2" style="color:var(--color-main)">
-                                        RM<?php echo rand(200,800)?>.00
+                                        &nbsp;<?php if(!empty($promo['price'])) echo 'RM'.$promo['price']?>
                                     </div>
                                     <div class="p-1">
-                                        <button class="btn btn-yellow">Read More</button>
+                                        <button class="btn btn-yellow pl-0 pr-0" style="width:100%;">Read More</button>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-7 p-0 zoom-outter">
-                                    <div class="zoom-inner" style="height:100%; min-height:200px; background: var(--color-light); background-image:url('<?php echo ROOT?>photo/tour_thum/<?php echo rand(1,8)?>.jpg'); background-position:center; background-size:cover; background-repeat:no-repeat;">
+                                    <div class="zoom-inner" style="height:100%; min-height:140px; background: var(--color-light); background-image:url('<?php echo ROOT.$promo['photo']?>'); background-position:center; background-size:cover; background-repeat:no-repeat;">
                                     </div>
                                 </div>
                             </div> 
@@ -78,7 +95,9 @@ include_once 'head.php';
             <?php }?>
         </div>
     </div>
-<?php }?>
+<?php 
+$i++;
+}?>
 
 
                                     </div>
@@ -114,12 +133,15 @@ include_once 'head.php';
     <div class="row p-1 pl-4 pr-4">
         <div class="col-12 col-lg-6 p-1">
             <div style="background:black;">
-                <img src="<?php echo ROOT?>photo/tour_thum/popular-tours-sabah.jpg" class="img-fluid hover-trans">
+                <a href="<?php echo ROOT?>tours/Malaysia-(West)">
+                    <div class="hover-trans" style="height:calc(45vh); background-image:url('<?php echo ROOT?>images/kuala-lumpur-2013-exterior-dusk-2.jpg'); background-size:cover; background-repeat:no-repeat; background-position:center;">
+                    </div>
+                </a>
             </div>
             <div style="height:0; overflow:visible;">
                 <div style="padding:15px; text-align:center; position: relative; height:74px; top:-74px; background:rgba(0,0,0,.7)">
                     <b style="color:white; font-size:22px; line-height:1;">
-                        POPULAR SABAH TOURS
+                        POPULAR KUALA LUMPUR TOURS
                     </b>
                     <div style="color:white; font-size:15px; color: #8eb634;">
                         Top Places To Go and Things To Do
@@ -130,7 +152,10 @@ include_once 'head.php';
         
         <div class="col-12 col-lg-6 p-1">
             <div style="background:black;">
-                <img src="<?php echo ROOT?>photo/tour_thum/popular-tours-sarawak.jpg" class="img-fluid hover-trans">
+                <a href="<?php echo ROOT?>tours/Malaysia-(EastslashBorneo)">
+                    <div class="hover-trans" style="height:calc(45vh); background-image:url('<?php echo ROOT?>photo/tour_thum/popular-tours-sarawak.jpg'); background-size:cover; background-repeat:no-repeat; background-position:center;">
+                    </div>
+                </a>
             </div>
             <div style="height:0; overflow:visible;">
                 <div style="padding:15px; text-align:center; position: relative; height:74px; top:-74px; background:rgba(0,0,0,.7)">

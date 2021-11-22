@@ -20,7 +20,6 @@ mysqli_select_db($conn, $DB->database);
 
 
 
-
 //------------------- Constant ---------------------
 if (!defined('HTTP')) {
 	define('HTTP', 'https://');
@@ -92,11 +91,19 @@ foreach((array)$_POST as $key => $val){
 
 
 
+//define table that has chinese version
+if($_SESSION['language'] == 'cn'){
+	$table_en = array('location', 'hotel', 'country', 'tour', 'pages');
+	$table_cn = array('location_cn', 'hotel_cn', 'country_cn', 'tour_cn', 'pages_cn');
+}
+
+
 //------------------- Mysql Query - Prepared Statement ---------------------
 
 function sql_exec($query, $type = null, $params = null){	
 	
-	global $conn;
+	global $conn, $table_en, $table_cn;
+	$query = str_replace($table_en, $table_cn, $query);
 	$_SESSION['sql_error'] = '';
 	
 	if(!$type && $params){
@@ -105,7 +112,7 @@ function sql_exec($query, $type = null, $params = null){
 
 	$stmt = mysqli_stmt_init($conn);
 
-	if(!mysqli_stmt_prepare($stmt, $query)){		
+	if(!mysqli_stmt_prepare($stmt, $query)){
 		$_SESSION['sql_error'] .= 'Failed to prepare..';
 		return array();
 	}else{
@@ -130,7 +137,18 @@ function sql_exec($query, $type = null, $params = null){
 
 function sql_read($query, $type = null, $params = null){	
 	
-	global $conn;
+	global $conn, $table_en, $table_cn;
+
+	//unset($_SESSION['before']);
+	//unset($_SESSION['after']);
+	//$_SESSION['before'][date('y-m-d h:i:s')] = $query;
+
+	$find = preg_filter('/^/', 'from ', $table_en);
+	$replace = preg_filter('/^/', 'from ', $table_cn);
+	$query = str_replace($find, $replace, $query);
+	
+	//$_SESSION['after'][date('y-m-d h:i:s')] = $query;
+
 	$_SESSION['sql_error'] = '';
 
 	if(!$type && $params){
@@ -183,7 +201,8 @@ function sql_read($query, $type = null, $params = null){
 
 function sql_count($query, $type = null, $params = null){
 
-	global $conn;
+	global $conn, $table_en, $table_cn;
+	$query = str_replace($table_en, $table_cn, $query);
 	$stmt = mysqli_stmt_init($conn);
 
 	if(!mysqli_stmt_prepare($stmt, $query)){
@@ -210,7 +229,11 @@ function sql_count($query, $type = null, $params = null){
 
 function sql_save($table = null, $data = array()){
 	
-	global $conn;
+	global $conn, $table_en, $table_cn;
+	$table = str_replace($table_en, $table_cn, $table);
+
+
+
 	$stmt = mysqli_stmt_init($conn);
 
 	/*---- Unset Submit Button ----*/
@@ -309,7 +332,7 @@ function sql_save($query, $type = null, $params = null){
 		return false;
 	}else{
 
-		global $conn;
+		global $conn, $table_en, $table_cn;
 		$stmt = mysqli_stmt_init($conn);
 
 		if(!mysqli_stmt_prepare($stmt, $query)){

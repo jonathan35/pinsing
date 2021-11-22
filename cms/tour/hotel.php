@@ -5,28 +5,30 @@ require_once '../../config/str_convert.php';
 require_once '../../config/image.php';
 //include '../layout/savelog.php';
 
-
 session_start();
 if($_SESSION['validation']=='YES'){
 }else{
 	header("Location:../authentication/login.php");
 }
 
-$table = 'banner';
-$module_name = 'Banner';
-$php = 'banner';
-$folder = 'content';//auto refresh row once edit modal closed
+$table = 'hotel';
+$module_name = 'Hotel';
+$php = 'hotel';
+$folder = 'tour';//auto refresh row once edit modal closed
 $add = true;
 $edit = true;
 $list = true;
 $list_method = 'list';
-$sort = 'order by position ASC, id DESC';
+$sort = ' order by position ASC, id DESC';
 
-$keyword = false;//Component to search by keyword
+
+$keyword = true;//Component to search by keyword
 $keywordMustFullWord=false;
-$keywordFields=array('name', 'username');
-$filter = false;
-$filFields = array('page');
+$keywordFields=array('hotel');
+$filter = true;
+$filFields = array('location');
+
+
 
 
 $actions=array('Delete', 'Display', 'Hide');//, 'Display', 'Hide'
@@ -35,11 +37,13 @@ $msg['Display']='Are you sure you want to display?';	$db['Display']=array('statu
 $msg['Hide']='Are you sure you want to hide?';			$db['Hide']=array('status', '2');
 $msg['Activate']='Are you sure you want to activate?';	$db['Activate']=array('status', '1');
 $msg['Suspend']='Are you sure you want to suspend?';	$db['Suspend']=array('status', '0');
+$msg['Popular']='Are you sure you want to set as popular?';	$db['Popular']=array('popular', 'Yes');
+$msg['Not Popular']='Are you sure you want to set as not popular?';	$db['Not Popular']=array('popular', 'No');
 
 $unique_validation=array();
 
 
-$fields = array('id', 'banner', 'position', 'status');//, 'text_in_mobile', 'text_in_desktop''page', 
+$fields = array('id', 'location', 'hotel', 'photo', 'link', 'position', 'status');
 $value = array();
 $type = array();
 $width = array();//width for input field
@@ -47,7 +51,7 @@ $placeholder = array();
 
 #####Design part#######
 $back = false;// "Back to listing" button, true = enable, false = disable
-$fic_1 = array(0=>array(2, 2));//fic = fiels in column, number of fields by column $fic_1 normally for add or edit template
+$fic_1 = array(0=>array(5, 2));//fic = fiels in column, number of fields by column $fic_1 normally for add or edit template
 $fic_2 = array('5', '1');//fic = fiels in column, number of fields by column $fic_2 normally for list template
 
 foreach((array)$fields as $field){
@@ -65,25 +69,38 @@ if(!empty($_GET['id'])){
 	$_SESSION['module_row_id']=base64_decode($_GET['id']);
 }
 
-$attributes['banner'] = array('required' => 'required');
+
+$attributes['location'] = array('required' => 'required');
+$attributes['hotel'] = array('required' => 'required');
+$attributes['position'] = array('placeholder' => 'A number for sorting');
 $placeholder['title'] = 'Title for profile page';
 //$placeholder['post_content'] = 'Description for profile page';
 
+
+$type['location'] = 'select'; $option['location'] = array();
+$results = sql_read('select * from location where status=1 order by position ASC');
+foreach((array)$results as $a){
+	$option['location'][$a['id']] = ucwords($a['location']);
+}
+
+
+$type['seo_keyword'] = 'textarea';
+$type['seo_description'] = 'textarea';
+
+
 $type['id'] = 'hidden';
-$type['banner'] = 'image';
-$remark['banner'] = '<div><small class="text-muted" >Recommanded size: 1920 x 1400 pixel</small></div>';
+$type['password'] = 'password';
 $type['position'] = 'number';
 //$type['publish_date'] = 'date';
-$type['text_in_desktop'] = 'textarea'; $tinymce['text_in_desktop']=true;  $labelFullRow['text_in_desktop']=false; $height['text_in_desktop'] = '140px;'; $width['text_in_desktop'] = '100%;'; 
-$type['text_in_mobile'] = 'textarea'; $tinymce['text_in_mobile']=true;  $labelFullRow['text_in_mobile']=false; $height['text_in_mobile'] = '90px;'; $width['text_in_mobile'] = '100%;'; 
+//$type['address'] = 'textarea'; $tinymce['address']=false;  $labelFullRow['address']=false; $height['address'] = '80px;'; $width['address'] = '100%;'; 
 $type['group_id'] = 'select'; $option['group_id'] = array('1'=>'Master Admin', '2'=>'Admin');
 $type['status'] = 'select'; $option['status'] = array('1'=>'Display','2'=>'Hide'); $default_value['status'] = '1';
-
-$type['page'] = 'select'; 
-$option['page'] = array('home'=>'Home', 'about_us'=>'About Us', 'tour'=>'Tour', 'flight'=>'Flight', 'contact_us'=>'Contact Us');
-
+$type['popular'] = 'select'; $option['popular'] = array('No'=>'No','Yes'=>'Yes'); $default_value['popular'] = 'No';
 //$type['thumbnail_align'] = 'select'; $option['thumbnail_align'] = array('left'=>'Image align left','right'=>'Image align right');
 //$type['thumbnail_photo'] = 'image';
+
+$type['photo'] = 'image';
+$remark['photo'] = '<div><small class="text-muted" >Recommanded size: 600 x 400 pixel</small></div>';
 
 $required['title'] = 'required';
 
@@ -102,12 +119,16 @@ foreach((array)$fields as $field){
 echo '</div>';
 */
 $cols = $items =array();
-$cols = array('Page' => 4, 'Banner' => 5, 'Position' => 3);//Column title and width
-$items['Page'] = array('page');
-$items['Banner'] = array('banner');
+$cols = array('Country' => 2, 'Photo' => 2, 'Hotel' => 2,  'Link' => 4, 'Position' => 2);//Column title and width
+$items['Country'] = array('location');
+$items['Photo'] = array('photo');
+$items['Hotel'] = array('hotel');
+$items['Link'] = array('link');
 $items['Position'] = array('position');
 //$items['Programme'] = array('programme','experience','experience_detail');
 //$items['Condition'] = array('illnesses','bankrupt','court');
+
+
 
 
 if(empty($_POST['get_config_only'])){
@@ -134,11 +155,10 @@ label {width:30%;}
 .div_input {width:69%;}
 </style>
 
+
 <div class="row">
-
-
 	<?php if($add==true || $_GET['id']){?>
-	<div class="col-12 <?php if($_GET['no_list'] != 'true'){?>add_property<?php }?>">
+	<div class="col-12">
 		<?php include '../layout/add.php';?>
 	</div>
 	<?php }?>

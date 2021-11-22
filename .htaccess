@@ -31,7 +31,7 @@ RewriteRule ^tours/([^/\.]+)?$ tours.php?country=$1 [QSA,L]
 RewriteRule ^tours/([^/\.]+)/([^/\.]+)?$ tours.php?country=$1&state=$2 [QSA,L]
 RewriteRule ^tours/([^/\.]+)/([^/\.]+)/([^/\.]+)?$ tours.php?country=$1&state=$2&city=$3 [QSA,L]
 RewriteRule ^promotion$ tours.php?promo=yes [QSA,L]
-
+RewriteRule ^hotels$ hotels.php [QSA,L]
 
 RewriteRule ^type/([^/\.]+)?$ tours.php?ty=$1 [QSA,L]
 RewriteRule ^type/([^/\.]+)/([^/\.]+)?$ tours.php?c=$1&ty=$2 [QSA,L]

@@ -10,7 +10,7 @@ if(!empty($_POST['submit']) && !empty($_POST['name']) && !empty($_POST['email'])
 
         $to      = 'enquiry@pinsingtravel.com';
         $subject = 'Website Enquiry';
-        $headers[] = 'From: pinsingtravel.com';
+        $headers[] = 'From: '.$_SERVER['SERVER_NAME'];
         $headers[] = 'MIME-Version: 1.0';
         $headers[] = 'Content-type: text/html; charset=iso-8859-1';
         $message = '<!DOCTYPE html>
@@ -22,7 +22,7 @@ if(!empty($_POST['submit']) && !empty($_POST['name']) && !empty($_POST['email'])
         </head>
         <body>
             Dear Staff,
-            '.$_POST['name'].' sent a message to you from kiffahborneo.com.my. You can login CMS to view or view below:<br><br>            
+            '.$_POST['name'].' sent a message to you from '.$_SERVER['SERVER_NAME'].'. You can login CMS to view or view below:<br><br>            
             Name: '.$_POST['name'].'<br><br>
             Tour: '.$_POST['tour'].'<br><br>
             Email: '.$_POST['email'].'<br><br>
@@ -33,6 +33,7 @@ if(!empty($_POST['submit']) && !empty($_POST['name']) && !empty($_POST['email'])
         unset($_POST['submit'], $_POST['g-recaptcha-response']);
         $_POST['status'] = 'New';
         $_POST['date'] = date('Y-m-d H:i:s');
+        
         if(sql_save('message', $_POST)){
 
             $_SESSION['session_msg'] = '<div class="alert alert-success">
@@ -40,7 +41,11 @@ if(!empty($_POST['submit']) && !empty($_POST['name']) && !empty($_POST['email'])
             style="position:relative; top:-2px;">×</a>
             Thank you for sent us the message, we will reply you through email soon.</div>';
 
-            mail($to, $subject, $message, implode("\r\n", $headers));
+            $tos = sql_read('select email from email where status=?', 'i', 1);
+
+            foreach($tos as $to){
+                mail($to['email'], $subject, $message, implode("\r\n", $headers));
+            }
         }
         
     }

@@ -1,149 +1,111 @@
+<form action="<?php echo ROOT?>tours" method="post" class="form-group pt-2" id="search_from" style="margin-top:10px;">
+    <!--<div class="ic-search">
+        <i class="fa fa-search"></i>
+    </div>-->
+    <input type="text" class="form-control h-search" name="keyword" placeholder="Search Tour" id="keyword" autocomplete="off" style="width:96%; display:inline-block;">
+    
+    <input type="hidden" id="user_keyword" name="user_keyword">
+    
+    <div style="width:0; height:0; position:relative; left:-33px; overflow:visible; display:inline-block; ">
+    <img src="<?php echo ROOT?>images/close-16.jpg" id="clearkeyword" onclick="clearkeyword()" onload="fadeOut()"></div>
+    
+    
+</form>
+<div id="auto_list">
+    <?php 
+    $tour_items = sql_read("select name, brief_description, full_description from tour where status =1 order by name asc");
 
-<div class="row pb-4">
-
-    <div class="col-12 col-lg-8 offset-lg-2 search-frame">
-        <form action="" method="post" class="form-group p-3 mb-0 text-left" id="search_from" >
-            <div class="row p-0 pl-md-4">
-                <div class="input-col">
-                    <input type="hidden" name="tier" id="tier" value="<?php echo $_POST['tier']?>">
-
-                    <select name="location" id="location" style="width:100%; font-family: arial;" class="form-control h-search" required onchange="getLocationTier()">
-            
-                        <option value="" >Select City</option>
-                        <?php 
-                        $countries = sql_read("select id, country from country where status =1 order by position asc, country asc");
-
-                        foreach((array)$countries as $country){
-
-                            $states = sql_read("select id, state from state where status =? and country=? order by position asc, state asc", 'ii', array(1, $country['id']));
-                            
-                            if(count((array)$states)>0){
-                                echo '<option value="'.$country['country'].'" tier="country" style="font-family: arial;"';
-                                if($_POST['tier'] == 'country' && $_POST['location'] == $country['country']) echo 'selected';
-                                echo '>'.$country['country'].'</option>';
-
-                                foreach((array)$states as $state){
-
-                                    $cities = sql_read("select city from city where status =? and state=? order by position asc, city asc", 'ii', array(1, $state['id']));
-
-                                    if(count((array)$cities)>0){
-
-                                        echo '<option value="'.$state['state'].'" tier="state" style="font-family: arial;"';
-                                        if($_POST['tier'] == 'state' && $_POST['location'] == $state['state']) echo 'selected';
-                                        echo '>&nbsp;&nbsp;'.$state['state'].'</option>';
-
-                                        foreach((array)$cities as $city){
-
-                                            echo '<option value="'.$city['city'].'" tier="city" style="font-family: arial;"';
-                                            if($_POST['tier'] == 'city' && $_POST['location'] == $city['city']) echo 'selected';
-                                            echo '>&nbsp;&nbsp;&nbsp;&nbsp;'.$city['city'].'</option>';
-                                        }
-                                    }
-                                }
-                                echo '</option>';
-                            }
-                        }
-                        ?>
-
-                    </select>
-                </div>
-
-                <div class="input-col">
-                    <select name="sort" class="form-control h-sort">
-                        <option value="date" <?php if($_POST['sort'] == 'date'){?>selected<?php }?>>Sort By Date</option>
-                        <option value="price" <?php if($_POST['sort'] == 'price'){?>selected<?php }?>>Price Low to High</option>
-                        <option value="price_desc" <?php if($_POST['sort'] == 'daprice_descte'){?>selected<?php }?>>Price High to Low</option>
-                        <option value="name" <?php if($_POST['sort'] == 'name'){?>selected<?php }?>>Sort By Name</option>
-                    </select>
-                </div>
-                <div class="submit-col">
-                    <input type="submit" class="form-control h-submit" value="SEARCH TOUR">
-                </div>
-            </div>
-        </form>
-    </div>
+    foreach((array)$tour_items as $tour_item){
+        echo '<div class="auto_suggest_item" style="display:none;">'.$tour_item['name'].'<span style="display:none">||||'.$tour_item['brief_description'].$tour_item['full_description'].'</span></div>';
+    }
+    ?>
 </div>
 
+<?php /*This part cause prettyPhoto not working
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+*/?>
 <script>
-function getLocationTier(){
-    var t = $('option:selected', '#location').attr('tier');
-    $('#tier').val(t);
+
+$('#clearkeyword').fadeOut();
+
+$("#keyword").on('keyup dblclick', function(){
     
+    //var asdsad = '#clearkeyword';
+    //$("#clearkeyword").css("display", "inline-block");
+
+    $('#clearkeyword').fadeIn();
+    $('.h-search').css('background-image', '');
+    
+
+    var keyw = $(this).val();
+
+    if( keyw != ''){
+        $('#auto_list').fadeIn();
+    }
+
+    $( ".auto_suggest_item" ).each(function( index ) {
+        var auto_suggest_item = $(this).text();
+        if(auto_suggest_item.toLowerCase().includes(keyw.toLowerCase()) === true){
+            $(this).fadeIn();
+        }else{
+            $(this).fadeOut();
+        }
+    });
+});
+
+$(".auto_suggest_item").on('click', function(){
+    
+    var userStr = $("#keyword").val();
+    $('#user_keyword').val(userStr);
+
+    var str = $(this).text();
+    var str = str.split('||||')[0];
+    $('#keyword').val(str);
+    //$('#keyword').focus(); 
+    $('#auto_list').fadeOut();
+    document.getElementById('search_from').submit();
+});
+
+$(function() {
+    $("body").click(function(e) {
+        if (e.target.id == "auto_list" || $(e.target).parents("#auto_list").length || e.target.id == "keyword" ) {
+            //alert("Inside div");
+        } else {
+            $('#auto_list').fadeOut();
+        }
+    });
+})
+
+function clearkeyword(){
+    $('#clearkeyword').fadeOut();
+    $('#keyword').val('');
+    $('#keyword').focus();
+    $('.h-search').css('background-image', 'url(../images/magnifier.png)');
 }
-    
+
 </script>
 
 <style>
-.search-frame {
-    border:1px solid #CCC; box-shadow:2px 2px 2px rgba(0,0,0,.1); border-radius:4px;
-}
-
-.input-col {
-    display:inline-block;
-    width:36.5%; margin-right:2%;
-}
-.submit-col {
-    display:inline-block;
-    width:20%;
-}
-@media (max-width: 575px) {
-.input-col, .submit-col {
-    
-    width:80%;
-    margin:4px 10%;
-}
-.search-frame {
-    height:126px;
-}
-}
-#search_from {
-    padding-top:20px;
-}
 #auto_list {
     /**/display:none;
     position:absolute;
-    top:38px;
+    top:62px;	
     z-index:4;
-    background: white;
+    background: rgba(255,255,255,.9);;
     border:1px solid #CCC;
-    box-shadow:2px 2px 4px rgb(0,0,0,.2);
+    box-shadow:2px 2px 4px rgba(0,0,0,.4);
     overflow-y:scroll;
     overflow-x:hidden;
-    scrollbar-width: thin;
     max-height:80vh;
-    transition: background .5s;
-}
-@media (max-width: 575px) {
-    #search_from {
-        top:-10px;
-    }
-    #auto_list {
-        top:50px;
-        width:91%;
-    }
 }
 #auto_list > div {
     padding:4px 10px;
     cursor:pointer;
 }
 #auto_list > div:hover {
-    background: #CCC;
+    background: #EFEFEF;
 }
 .h-search::placeholder {
     color:#999;
 }
-.auto_suggest_item {
-    min-width:220px;
-    text-align:left;
-    display:block;
-    padding:6px;
-}
-.auto_suggest_item:hover {
-    text-decoration:none;
-}
-.h-search, .h-sort {
-    padding-left:2px;
-}
-
 </style>
-

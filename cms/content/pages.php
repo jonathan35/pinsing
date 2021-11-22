@@ -16,7 +16,7 @@ $table = 'pages';
 $module_name = 'Pages';
 $php = 'pages';
 $folder = 'content';
-$add = true;
+$add = false;
 $edit = true;
 $tinymce_photo = true;
 $list = true;
@@ -37,7 +37,7 @@ $msg['Suspend']='Are you sure you want to suspend?';	$db['Suspend']=array('statu
 $unique_validation=array();
 
 
-$fields = array('id', 'title', 'position', 'status', 'seo_keyword', 'seo_description', 'content');//navigator
+$fields = array('id', 'section', 'title', 'position', 'status', 'seo_keyword', 'seo_description', 'content');//navigator
 $value = array();
 $type = array();
 $width = array();//width for input field
@@ -45,7 +45,7 @@ $placeholder = array();
 
 #####Design part#######
 $back = false;// "Back to listing" button, true = enable, false = disable
-$fic_1 = array(0=>array('4', '2'), 1=>array('1'));//fic = fiels in column, number of fields by column $fic_1 normally for add or edit template
+$fic_1 = array(0=>array(5, 2), 1=>array('1'));//fic = fiels in column, number of fields by column $fic_1 normally for add or edit template
 $fic_2 = array('5', '1');//fic = fiels in column, number of fields by column $fic_2 normally for list template
 
 foreach((array)$fields as $field){
@@ -81,6 +81,7 @@ $type['position'] = 'number';
 $type['content'] = 'textarea'; $tinymce['content']=true;  $labelFullRow['content']=true; $height['content'] = '500px;'; $width['content'] = '100%;';
 $type['group_id'] = 'select'; $option['group_id'] = array('1'=>'Master Admin', '2'=>'Admin');
 $type['status'] = 'select'; $option['status'] = array('1'=>'Display','2'=>'Hide'); $default_value['status'] = '1';
+$type['section'] = 'select'; $option['section'] = array('header'=>'Header','footer'=>'Footer'); $default_value['section'] = 'header';
 //$type['thumbnail_align'] = 'select'; $option['thumbnail_align'] = array('left'=>'Image align left','right'=>'Image align right');
 //$type['thumbnail_photo'] = 'image';
 
@@ -106,8 +107,10 @@ foreach((array)$fields as $field){
 echo '</div>';
 */
 $cols = $items =array();
-$cols = array('Page Title' => 4, 'SEO Keyword' => 4, 'SEO Description' => 4);//Column title and width
+$cols = array('Page Title' => 3, 'Section' => 2, 'Position' => 1, 'SEO Keyword' => 3, 'SEO Description' => 3);//Column title and width
 $items['Page Title'] = array('title');
+$items['Section'] = array('section');
+$items['Position'] = array('position');
 $items['SEO Keyword'] = array('seo_keyword');
 $items['SEO Description'] = array('seo_description');
 //$items['Programme'] = array('programme','experience','experience_detail');
@@ -143,18 +146,20 @@ label {width:30%;}
 
 <div class="row">
 
-	<?php if($_GET['no_list'] != 'true'){?>
-	<div class="btn btn-secondary ml-3 mb-3" onclick="$('.add_page').fadeToggle(); $('.icon_add, .icon_minus').toggle();">
-		Add Page
-		<span class="icon_add" style="font-size:20px;">+</span>
-		<span class="icon_minus collapse" style="font-size:20px;"> - </span>
-	</div>
-	<?php }?>
-
+	<?php 
+	if($add==true){
+		if($_GET['no_list'] != 'true'){?>
+		<div class="btn btn-secondary ml-3 mb-3" onclick="$('.add_page').fadeToggle(); $('.icon_add, .icon_minus').toggle();">
+			Add Page
+			<span class="icon_add" style="font-size:20px;">+</span>
+			<span class="icon_minus collapse" style="font-size:20px;"> - </span>
+		</div>
+		<?php }
+	}?>
 	<?php if($add==true || $_GET['id']){?>
-	<div class="col-12 <?php if($_GET['no_list'] != 'true'){?>collapse add_page<?php }?>">
-		<?php include '../layout/add.php';?>
-	</div>
+		<div class="col-12 <?php if($_GET['no_list'] != 'true'){?>collapse add_page<?php }?>">
+			<?php include '../layout/add.php';?>
+		</div>
 	<?php }?>
 </div>
 <div class="row">

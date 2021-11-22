@@ -12,22 +12,20 @@ if($_SESSION['validation']=='YES'){
 	header("Location:../authentication/login.php");
 }
 
-$table = 'banner';
-$module_name = 'Banner';
-$php = 'banner';
-$folder = 'content';//auto refresh row once edit modal closed
+$table = 'location';
+$module_name = 'Location';
+$php = 'location';
+$folder = 'tour';//auto refresh row once edit modal closed
 $add = true;
 $edit = true;
 $list = true;
 $list_method = 'list';
 $sort = 'order by position ASC, id DESC';
 
+
 $keyword = false;//Component to search by keyword
 $keywordMustFullWord=false;
 $keywordFields=array('name', 'username');
-$filter = false;
-$filFields = array('page');
-
 
 $actions=array('Delete', 'Display', 'Hide');//, 'Display', 'Hide'
 $msg['Delete']='Are you sure you want to delete?';
@@ -39,7 +37,7 @@ $msg['Suspend']='Are you sure you want to suspend?';	$db['Suspend']=array('statu
 $unique_validation=array();
 
 
-$fields = array('id', 'banner', 'position', 'status');//, 'text_in_mobile', 'text_in_desktop''page', 
+$fields = array('id', 'location', 'position', 'status');// 'photo', , 'seo_keyword', 'seo_description'
 $value = array();
 $type = array();
 $width = array();//width for input field
@@ -65,26 +63,25 @@ if(!empty($_GET['id'])){
 	$_SESSION['module_row_id']=base64_decode($_GET['id']);
 }
 
-$attributes['banner'] = array('required' => 'required');
+$attributes['location'] = array('required' => 'required');
+$attributes['position'] = array('placeholder' => 'A number for sorting');
 $placeholder['title'] = 'Title for profile page';
 //$placeholder['post_content'] = 'Description for profile page';
 
+
+$type['seo_keyword'] = 'textarea';
+$type['seo_description'] = 'textarea';
+
+
 $type['id'] = 'hidden';
-$type['banner'] = 'image';
-$remark['banner'] = '<div><small class="text-muted" >Recommanded size: 1920 x 1400 pixel</small></div>';
+$type['password'] = 'password';
 $type['position'] = 'number';
 //$type['publish_date'] = 'date';
-$type['text_in_desktop'] = 'textarea'; $tinymce['text_in_desktop']=true;  $labelFullRow['text_in_desktop']=false; $height['text_in_desktop'] = '140px;'; $width['text_in_desktop'] = '100%;'; 
-$type['text_in_mobile'] = 'textarea'; $tinymce['text_in_mobile']=true;  $labelFullRow['text_in_mobile']=false; $height['text_in_mobile'] = '90px;'; $width['text_in_mobile'] = '100%;'; 
+//$type['address'] = 'textarea'; $tinymce['address']=false;  $labelFullRow['address']=false; $height['address'] = '80px;'; $width['address'] = '100%;'; 
 $type['group_id'] = 'select'; $option['group_id'] = array('1'=>'Master Admin', '2'=>'Admin');
 $type['status'] = 'select'; $option['status'] = array('1'=>'Display','2'=>'Hide'); $default_value['status'] = '1';
-
-$type['page'] = 'select'; 
-$option['page'] = array('home'=>'Home', 'about_us'=>'About Us', 'tour'=>'Tour', 'flight'=>'Flight', 'contact_us'=>'Contact Us');
-
 //$type['thumbnail_align'] = 'select'; $option['thumbnail_align'] = array('left'=>'Image align left','right'=>'Image align right');
-//$type['thumbnail_photo'] = 'image';
-
+$type['photo'] = 'image';
 $required['title'] = 'required';
 
 
@@ -102,9 +99,8 @@ foreach((array)$fields as $field){
 echo '</div>';
 */
 $cols = $items =array();
-$cols = array('Page' => 4, 'Banner' => 5, 'Position' => 3);//Column title and width
-$items['Page'] = array('page');
-$items['Banner'] = array('banner');
+$cols = array('Location' => 8, 'Position' => 4);//Column title and width
+$items['Location'] = array('location');
 $items['Position'] = array('position');
 //$items['Programme'] = array('programme','experience','experience_detail');
 //$items['Condition'] = array('illnesses','bankrupt','court');
@@ -135,10 +131,8 @@ label {width:30%;}
 </style>
 
 <div class="row">
-
-
 	<?php if($add==true || $_GET['id']){?>
-	<div class="col-12 <?php if($_GET['no_list'] != 'true'){?>add_property<?php }?>">
+	<div class="col-12">
 		<?php include '../layout/add.php';?>
 	</div>
 	<?php }?>

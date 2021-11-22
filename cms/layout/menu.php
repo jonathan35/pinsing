@@ -8,35 +8,43 @@
   <div class="nav lnav" link="../content/home_block">Why Choose Us?</div>
   <div class="nav lnav" link="../content/banner_dashboard?id=Mg==">Banner (Account Dashboard)</div>-->
 
-  <h4>Pages<!-- (Desktop)--></h4><!--
+
+  <h4>Content</h4>
+  <div class="nav lnav" link="../content/banner">Home Banner</div>
+  <div class="nav lnav" link="../content/pages">Free-formated Pages <?php if($_SESSION['language'] == 'cn'){ echo ' (文)';}?></div>
+
+  <!--
   <div class="nav lnav" link="../content/layout?pl=desktop&page=home">Home</div>
   <div class="nav lnav" link="../content/layout?pl=desktop&page=about_us">About Us</div>
   <div class="nav lnav" link="../content/layout?pl=desktop&page=flight">Flight</div>
-  <div class="nav lnav" link="../content/layout?pl=desktop&page=contact_us">Contact Us</div>-->
-  <div class="nav lnav" link="../content/banner">Banner</div>
+  <div class="nav lnav" link="../content/layout?pl=desktop&page=contact_us">Contact Us</div>
   <div class="nav lnav" link="../content/layout?pl=desktop&page=hotel">Hotels</div>
-  <div class="nav lnav" link="../content/pages">Free-formated Pages</div>
-
-  <!--
-  <h4>Pages (Mobile)</h4>
-  <div class="nav lnav" link="../content/layout?pl=mobile&page=home">Home</div>
-  <div class="nav lnav" link="../content/layout?pl=mobile&page=about_us">About Us</div>
-  <div class="nav lnav" link="../content/layout?pl=mobile&page=ticketing">Ticketing</div>
-  <div class="nav lnav" link="../content/layout?pl=mobile&page=contact_us">Contact Us</div>
   -->
+  
   <h4>Tour</h4>
-  <div class="nav lnav" link="../tour/tour">Tour</div>
-  <div class="nav lnav" link="../tour/country">Country</div>
+  <div class="nav lnav" link="../tour/tour">Tour <?php if($_SESSION['language'] == 'cn'){ echo ' (文)';}?></div>
+  <div class="nav lnav" link="../tour/country">Country <?php if($_SESSION['language'] == 'cn'){ echo ' (文)';}?></div>
+  <div class="nav lnav" link="../tour/analytic_report">
+    Analytic Report
+    <span style="font-size:80%; color:red;">new</span>
+  </div>
+  
   <!--
   <div class="nav lnav" link="../tour/state">State</div>
   <div class="nav lnav" link="../tour/city">City</div>
   <div class="nav lnav" link="../tour/tour_type">Tour Type</div>  -->
   <div class="nav lnav" link="../tour/message?tab=New">Enquiry</div>
+  
 
+  <h4>Hotel</h4>
+  <div class="nav lnav" link="../tour/location">Location <?php if($_SESSION['language'] == 'cn'){ echo ' (文)';}?></div>
+  <div class="nav lnav" link="../tour/hotel">Hotel <?php if($_SESSION['language'] == 'cn'){ echo ' (文)';}?></div>
+
+  
   <h4>Gallery</h4>
+  <div class="nav lnav" link="../gallery/album_intro?id=MQ==">Introduction</div>
   <div class="nav lnav" link="../gallery/album">Album</div>
   <div class="nav lnav" link="../gallery/album_photo">Album Photo</div>
-
 
 
   <h4>Setup</h4>

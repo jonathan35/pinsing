@@ -92,7 +92,7 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
 
 <div id="header">
     <div class="row " style="height:100%;  ">
-        <div class="col-3 col-md-2 pr-0 pl-md-5 pr-md-5 pt-0 pl-md-5 text-left text-md-left " id="logo-col">
+        <div class="col-3 col-md-1 pr-0 pl-md-5 pr-md-5 pt-0 pl-md-5 text-left text-md-left " id="logo-col">
             <a href="#<?php echo ROOT?>home" style="color:white; text-align:center; text-decoration:none;">
                 <img src="<?php echo ROOT?>images/logo.jpg" class="d-none d-md-inline img-fluid logo">
                 <img src="<?php echo ROOT?>images/logo.jpg" class="d-inline d-md-none img-fluid" style="height:60px;">
@@ -110,21 +110,18 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
             </a>
         </div>
         
-        <div class="col-md-7 offset-md-1 collapse d-md-flex vbox" id="desktopMenu">
+        <div class="col-md-6 offset-md-1 collapse d-md-flex vbox" id="desktopMenu">
             <div class="d-md-flex menu-inner vbox" id="menu-col">
-                <div class="m-menu" style="display:flex;">
+                <div class="m-menu flex-center" style="justify-content: right !important;">
                     <div class="pl-4 pr-4">
-                        <a href="<?php echo A_ROOT?>content/home" class="<?php if($current_page == 'index.php' && $page == 'home'){?>actived<?php }?>">HOME</a>
+                        <a href="<?php echo A_ROOT?>content/home" class="lang lang10 <?php if($current_page == 'index.php' && $page == 'home'){?>actived<?php }?>">HOME</a>
                     </div>
                     <div class="pl-4 pr-4">
-                        <a href="<?php echo ROOT?>page/about-us" class="<?php if($current_page == 'page.php' && $_GET['t'] == 'about-us'){?>actived<?php }?>">ABOUT US</a>
-                    </div>
-                    <div class="pl-4 pr-4">
-                        <a href="<?php echo ROOT?>promotion" class="<?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && !empty($_GET['promo'])){?>actived<?php }?>">PROMOTION</a>
+                        <a href="<?php echo ROOT?>promotion" class="lang lang10 <?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && !empty($_GET['promo'])){?>actived<?php }?>">PROMOTION</a>
                     </div>
                     
                     <div class="pl-4 pr-4" id="tour-menu">
-                        <a href="<?php echo ROOT?>tours" class="<?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && empty($_GET['promo'])){?>actived<?php }?>">TOURS</a>
+                        <a href="<?php echo ROOT?>tours" class="lang lang10 <?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && empty($_GET['promo'])){?>actived<?php }?>">TOURS</a>
                         <div class="sub-menu" id="tour-countries">
                             <div class="sub-menu-inner">
                             <?php 
@@ -150,10 +147,13 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
 
 
                     <div class="pl-4 pr-4">
-                        <a href="<?php echo ROOT?>page/hotels" class="<?php if($current_page == 'page.php' && $_GET['t'] == 'hotels'){?>actived<?php }?>">HOTELS</a>
+                        <a href="<?php echo ROOT?>hotels" class="lang lang10 <?php if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == 'hotels'){?>actived<?php }?>">HOTELS</a>
                     </div>
+                    
                     <div class="pl-4 pr-4" id="gallery-menu">
-                        <a href="<?php echo ROOT?>gallery" class="<?php if($current_page == 'album.php'){?>actived<?php }?>">GALLERY</a>
+                        <a href="<?php echo ROOT?>gallery" class="lang lang10 <?php if($current_page == 'album.php'){?>actived<?php }?>">GALLERY</a>
+                        
+                        <?php /*
                         <div class="sub-menu" id="gallery-album">
                             <div class="sub-menu-inner">
                             <?php 
@@ -172,10 +172,16 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
                                 </a>
                             <?php }?>
                             </div>
-                        </div>
+                        </div>*/?>
                     </div>
                     <div class="pl-4 pr-4">
-                        <a href="<?php echo ROOT?>page/contact-us" class="<?php if($current_page == 'page.php' && $_GET['t'] == 'contact-us'){?>actived<?php }?>">CONTACT US</a>
+
+                        <?php 
+                        $contact = sql_read("select id, title from pages where status=? and id=? limit 1", 'is', array(1, 3));
+                        
+                        if(!empty($contact['id'])){?>
+                            <a href="<?php echo ROOT?>page/<?php echo $str_convert->to_url($contact['title'])?>" class="<?php if($current_page == 'page.php' && $_GET['t'] == 'contact-us'){?>actived<?php }?> lang10"><?php echo $contact['title']?></a>
+                        <?php }?>
                     </div>
                 
 
@@ -200,12 +206,18 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
                 </div>
             </div>
         </div>
+        <!--
+        <div class="col-2 d-none d-md-flex vbox">
+            
+        </div>-->
+        <div class="col-6 p-0 col-md-4 vbox pr-4" style="justify-content: right !important;">
+            
+        <?php include 'search.php';?>
 
-        <div class="col-6 p-0 col-md-2 vbox">
-            <div class="d-inline" style="font-size:14px; border:1px solid #ffbb69; background:#ffbb69; padding:4px 8px; text-align:center; border-radius:30px; width:80px; margin:7px; font-weight:bold;">
-                <a href="" style="color:white;">EN</a> 
-                <span style="opacity:.3;">|</span>
-                <a href="">CN</a>
+            <div class="d-inline" style="font-size:14px; border:1px solid #ffbb69; background:#ffbb69; padding:0; text-align:center; border-radius:20px; width:auto; margin:7px; font-weight:bold;">
+                <a href="<?php echo ROOT?>language_switch.php?language=en" id="en" onclick="language('en')" class="lang-btn">EN</a>
+                <a href="<?php echo ROOT?>language_switch.php?language=cn" id="cn" onclick="language('cn')" class="lang-btn">文</a>
+                
             </div>
             <a href="https://www.facebook.com/pinsingtravel" target="_blank">
                 <img src="<?php echo ROOT?>images/facebook_circle_ffb969_3e332e_48.svg" width="26px" style="margin:4px">
@@ -218,6 +230,15 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
             </a>
         
         </div>
+        <style>
+            .lang-btn {
+                display:inline-block; width:40px; height:25px; cursor:pointer; padding:1px; color:#333; font-size:14px;
+            }
+            .lang-btn-active {
+                border:1px solid orange; border-radius:15px; background:var(--color-main); 
+            }
+        </style>
+        
 
         <div class="col-2 d-md-none flex-center">
             <button class="navbar-toggler menu-toggler flex-center" type="button" onclick="$('#toggleMenu, .page_title').fadeToggle();">
@@ -235,17 +256,14 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
         
 
         <div class="col-12 p-2">
-            <a href="<?php echo A_ROOT?>content/home" class="<?php if($current_page == 'index.php' && $page == 'home'){?>actived<?php }?>">HOME</a>
+            <a href="<?php echo A_ROOT?>content/home" class="lang lang10 <?php if($current_page == 'index.php' && $page == 'home'){?>actived<?php }?>">HOME</a>
         </div>
         <div class="col-12 p-2">
-            <a href="<?php echo ROOT?>page/about-us" class="<?php if($current_page == 'page.php' && $_GET['t'] == 'about-us'){?>actived<?php }?>">ABOUT US</a>
-        </div>
-        <div class="col-12 p-2">
-            <a href="<?php echo ROOT?>promotion" class="<?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && !empty($_GET['promo'])){?>actived<?php }?>">PROMOTION</a>
+            <a href="<?php echo ROOT?>promotion" class="lang lang10 <?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && !empty($_GET['promo'])){?>actived<?php }?>">PROMOTION</a>
         </div>
         
         <div class="col-12 p-2" id="tour-menu">
-            <a href="<?php echo ROOT?>tours" class="<?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && empty($_GET['promo'])){?>actived<?php }?>">TOURS</a>
+            <a href="<?php echo ROOT?>tours" class="lang lang10 <?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && empty($_GET['promo'])){?>actived<?php }?>">TOURS</a>
             <div class="sub-menu" id="tour-countries">
                 <div class="sub-menu-inner">
                 <?php 
@@ -271,10 +289,11 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
 
 
         <div class="col-12 p-2">
-            <a href="<?php echo ROOT?>page/hotels" class="<?php if($current_page == 'page.php' && $_GET['t'] == 'hotels'){?>actived<?php }?>">HOTELS</a>
+            <a href="<?php echo ROOT?>hotels" class="lang lang10 <?php if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == 'hotels'){?>actived<?php }?>">HOTELS</a>
         </div>
         <div class="col-12 p-2" id="gallery-menu">
-            <a href="<?php echo ROOT?>gallery" class="<?php if($current_page == 'album.php'){?>actived<?php }?>">GALLERY</a>
+            <a href="<?php echo ROOT?>gallery" class="lang lang10 <?php if($current_page == 'album.php'){?>actived<?php }?>">GALLERY</a>
+            <?php /*
             <div class="sub-menu" id="gallery-album">
                 <div class="sub-menu-inner">
                 <?php 
@@ -293,10 +312,10 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
                     </a>
                 <?php }?>
                 </div>
-            </div>
+            </div>*/?>
         </div>
         <div class="col-12 p-2">
-            <a href="<?php echo ROOT?>page/contact-us" class="<?php if($current_page == 'page.php' && $_GET['t'] == 'contact-us'){?>actived<?php }?>">CONTACT US</a>
+            <a href="<?php echo ROOT?>page/contact-us" class="lang lang10 <?php if($current_page == 'page.php' && $_GET['t'] == 'contact-us'){?>actived<?php }?>">CONTACT US</a>
         </div>
     
 
@@ -309,12 +328,19 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
 
 
 <script>
+/*
 $('#gallery-menu').hover(function(){
     $('#gallery-album').stop().fadeToggle();
-})
+})*/
 $('#tour-menu').hover(function(){
     $('#tour-countries').stop().fadeToggle();
+})/*
+$('#tour-menu').on('mouseenter', function(){//alert('ihn');
+    $('#tour-countries').fadeIn();
 })
+$('#tour-menu').on('mouseleave', function(){//alert('out');
+    $('#tour-countries').fadeOut();
+})*/
 
 window.onscroll = function() {
 

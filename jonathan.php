@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-ini_set("error_log", "/kiffah.log");
+ini_set("error_log", "/my_error.log");
 
 $_SESSION['validation'] = 'YES';
 

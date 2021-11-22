@@ -12,6 +12,9 @@ if(!empty($_GET['c'])){
 $seo_title = $seo_keyword = $seo_description = '';
 
 
+//echo '<br><br><br><br>';
+//debug($_GET);
+
 /*
 if (strpos($_SERVER['SCRIPT_NAME'], 'news.php') !== false && !empty($_GET['cat'])) {
     
@@ -25,24 +28,13 @@ if (strpos($_SERVER['SCRIPT_NAME'], 'news.php') !== false && !empty($_GET['cat']
 
 if (strpos($_SERVER['SCRIPT_NAME'], 'tours.php') !== false) {
 
-    if(!empty($_GET['ty'])){
-        $tour_type_name = $str_convert->to_query($_GET['ty']);
-        $seo_tour_type = sql_read('select tour_type, seo_keyword, seo_description from tour_type where tour_type like ? and status=? limit 1', 'si', array('%'.$tour_type_name.'%', 1));
-        $seo_title = ' - '.$seo_tour_type['tour_type'];
-        $seo_keyword =  $seo_tour_type['seo_keyword'];
-        $seo_description = $seo_tour_type['seo_description'];
-    }elseif(!empty($_GET['cat'])){
-        $category_name = $str_convert->to_query($_GET['cat']);
-        $seo_category = sql_read('select category, seo_keyword, seo_description from category where category like ? limit 1', 's', '%'.$category_name.'%');
-        $seo_title = ' - '.$seo_category['category'];
-        $seo_keyword =  $seo_category['seo_keyword'];
-        $seo_description = $seo_category['seo_description'];
-    }elseif(!empty($_GET['c'])){
-        $location_name = $str_convert->to_query($_GET['c']);
-        $seo_location = sql_read('select location, seo_keyword, seo_description from location where location like ? limit 1', 's', '%'.$location_name.'%');
-        $seo_title = ' - '.$seo_location['location'];
-        $seo_keyword =  $seo_location['seo_keyword'];
-        $seo_description = $seo_location['seo_description'];
+
+    if(!empty($_GET['country'])){
+        $country_name = $str_convert->to_query($_GET['country']);
+        $seo_country = sql_read('select country, seo_keyword, seo_description from country where country like ? limit 1', 's', '%'.$country_name.'%');
+        $seo_title = ' - '.$seo_country['country'];
+        $seo_keyword =  $seo_country['seo_keyword'];
+        $seo_description = $seo_country['seo_description'];
     }
 
     
@@ -91,12 +83,12 @@ if(!empty($_GET['page'])){
     <?php if(!empty($seo_description)){?>
     <meta name="description" content="<?php echo $seo_description?>">
     <?php }?>
-
+    <?php /*
     <script src="<?php echo ROOT?>js/jquery.min.js"></script>
     <script src="<?php echo ROOT?>js/popper.min.js"></script>
     <script src="<?php echo ROOT?>js/4.3.1/bootstrap.min.js"></script>
     <script src="<?php echo ROOT?>js/bootstrap.min.js"></script>
-    <script src="<?php echo ROOT?>js/jquery-3.5.0.js"></script>
+    <script src="<?php echo ROOT?>js/jquery-3.5.0.js"></script>*/?>
     
 
     <!-- Bootstrap CSS -->
@@ -140,10 +132,27 @@ if(!empty($_GET['page'])){
 <?php 
 
 ////////////////////////////// Tour Details Page - Start ///////////////////////////////       
-if(!empty($_GET['p'])){
-    $tour_name = $str_convert->to_query($_GET['p']);
+if(!empty($_GET['tour'])){
+    $tour_name = $str_convert->to_query($_GET['tour']);
     $tour = sql_read('select * from tour where status=1 and name like ? limit 1', 's', $tour_name);
-    //debug($tour);
+  
+
+    //---------------- Update product_analytic > click - Start ---------------------
+    if(!empty($tour['id'])){
+        $exist = sql_read("select id, click from product_analytic where product=? limit 1", 'i', $tour['id']);
+
+        if(!empty($exist['id'])){
+            $analytic['id'] = $exist['id'];
+            $analytic['click'] = $exist['click'] + 1;
+        }else{
+            $analytic['product'] = $tour['id'];
+            $analytic['click'] = 1;
+        }
+        
+        sql_save("product_analytic", $analytic);
+    }
+    //---------------- Update product_analytic > click - End ---------------------
+    
 
     if(!empty($tour['tour_type'])){
         $type = sql_read('select * from tour_type where status=1 and id=? limit 1', 'i', $tour['tour_type']);

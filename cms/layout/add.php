@@ -160,6 +160,7 @@ if(!empty($id)){//edit mode
 		}
 	}
 }
+
 ?>
 <?php /*
 <div class="add-trigger" style="position:relative; top:-24px; left:-24px; z-index:1;">
