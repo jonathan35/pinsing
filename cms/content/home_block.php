@@ -13,14 +13,14 @@ if($_SESSION['validation']=='YES'){
 }
 
 $table = 'home_block';
-$module_name = 'Block Text for "Why Choose Us?"';
+$module_name = 'Home Block';
 $php = 'home_block';
 $folder = 'content';//auto refresh row once edit modal closed
-$add = true;
+$add = false;
 $edit = true;
 $list = true;
 $list_method = 'list';
-$sort = 'order by position ASC, id DESC';
+$sort = 'order by id ASC';
 
 $keyword = false;//Component to search by keyword
 $keywordMustFullWord=false;
@@ -36,7 +36,7 @@ $msg['Suspend']='Are you sure you want to suspend?';	$db['Suspend']=array('statu
 $unique_validation=array();
 
 
-$fields = array('id', 'background', 'block_text', 'position', 'status');
+$fields = array('id', 'block_title', 'block_brief', 'link', 'background');
 $value = array();
 $type = array();
 $width = array();//width for input field
@@ -44,7 +44,7 @@ $placeholder = array();
 
 #####Design part#######
 $back = false;// "Back to listing" button, true = enable, false = disable
-$fic_1 = array(0=>array('3', '2'));//fic = fiels in column, number of fields by column $fic_1 normally for add or edit template
+$fic_1 = array(0=>array(4, 1));//fic = fiels in column, number of fields by column $fic_1 normally for add or edit template
 $fic_2 = array('5', '1');//fic = fiels in column, number of fields by column $fic_2 normally for list template
 
 foreach((array)$fields as $field){
@@ -62,12 +62,13 @@ if(!empty($_GET['id'])){
 	$_SESSION['module_row_id']=base64_decode($_GET['id']);
 }
 
-$attributes['block_text'] = array('required' => 'required');
+$attributes['block_title'] = array('required' => 'required');
+$attributes['block_brief'] = array('required' => 'required');
 $placeholder['title'] = 'Title for profile page';
 //$placeholder['post_content'] = 'Description for profile page';
 
 $type['id'] = 'hidden';
-$remark['block_text'] = '<div><small class="text-muted" >Recommanded size: 200 x 100 pixel</small></div>';
+$remark['background'] = '<div><small class="text-muted" >Recommanded size: 1000 x 300 pixel</small></div>';
 $type['position'] = 'number';
 //$type['publish_date'] = 'date';
 //$type['address'] = 'textarea'; $tinymce['address']=false;  $labelFullRow['address']=false; $height['address'] = '80px;'; $width['address'] = '100%;'; 
@@ -93,9 +94,11 @@ foreach((array)$fields as $field){
 echo '</div>';
 */
 $cols = $items =array();
-$cols = array('Block Text' => 4, 'Background Image' => 4, 'Position' => 4);//Column title and width
-$items['Block Text'] = array('block_text');
+$cols = array('Background Image' => 4, 'Block Title' => 3, 'Block Brief' => 5);//Column title and width
 $items['Background Image'] = array('background');
+$items['Block Title'] = array('block_title');
+$items['Block Brief'] = array('block_brief');
+
 $items['Position'] = array('position');
 //$items['Programme'] = array('programme','experience','experience_detail');
 //$items['Condition'] = array('illnesses','bankrupt','court');

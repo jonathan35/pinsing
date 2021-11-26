@@ -130,21 +130,26 @@ $i++;
     </style>
 
 
+<?php 
+$block_left = sql_read("select block_title, block_brief, background, link from home_block where id=? limit 1", 'i', 1);
+$block_right = sql_read("select block_title, block_brief, background, link from home_block where id=? limit 1", 'i', 2);
+
+?>
     <div class="row p-1 pl-4 pr-4">
         <div class="col-12 col-lg-6 p-1">
             <div style="background:black;">
-                <a href="<?php echo ROOT?>tours/Malaysia-(West)">
-                    <div class="hover-trans" style="height:calc(45vh); background-image:url('<?php echo ROOT?>images/kuala-lumpur-2013-exterior-dusk-2.jpg'); background-size:cover; background-repeat:no-repeat; background-position:center;">
+                <a href="<?php echo ROOT.$block_left['link']?>">
+                    <div class="hover-trans" style="height:calc(45vh); background-image:url('<?php echo ROOT.$block_left['background']?>'); background-size:cover; background-repeat:no-repeat; background-position:center;">
                     </div>
                 </a>
             </div>
             <div style="height:0; overflow:visible;">
                 <div style="padding:15px; text-align:center; position: relative; height:74px; top:-74px; background:rgba(0,0,0,.7)">
                     <b style="color:white; font-size:22px; line-height:1;">
-                        POPULAR KUALA LUMPUR TOURS
+                        <?php echo $block_left['block_title']?>
                     </b>
                     <div style="color:white; font-size:15px; color: #8eb634;">
-                        Top Places To Go and Things To Do
+                        <?php echo $block_left['block_brief']?>
                     </div>
                 </div>
             </div>
@@ -152,18 +157,18 @@ $i++;
         
         <div class="col-12 col-lg-6 p-1">
             <div style="background:black;">
-                <a href="<?php echo ROOT?>tours/Malaysia-(EastslashBorneo)">
-                    <div class="hover-trans" style="height:calc(45vh); background-image:url('<?php echo ROOT?>photo/tour_thum/popular-tours-sarawak.jpg'); background-size:cover; background-repeat:no-repeat; background-position:center;">
+                <a href="<?php echo ROOT.$block_left['link']?>">
+                    <div class="hover-trans" style="height:calc(45vh); background-image:url('<?php echo ROOT.$block_right['background']?>'); background-size:cover; background-repeat:no-repeat; background-position:center;">
                     </div>
                 </a>
             </div>
             <div style="height:0; overflow:visible;">
                 <div style="padding:15px; text-align:center; position: relative; height:74px; top:-74px; background:rgba(0,0,0,.7)">
                     <b style="color:white; font-size:22px; line-height:1;">
-                        POPULAR SARAWAK TOURS
+                        <?php echo $block_right['block_title']?>
                     </b>
                     <div style="color:white; font-size:15px; color: #8eb634;">
-                        Top Places To Go and Things To Do
+                        <?php echo $block_right['block_brief']?>
                     </div>
                 </div>
             </div>

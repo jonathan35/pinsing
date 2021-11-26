@@ -14,12 +14,12 @@ if($_SESSION['validation']=='YES'){
 }
 
 $table = 'album_intro';
-$module_name = 'Gallery Banner';
+$module_name = 'Promotion Banner';
 $php = 'album_intro';
 $folder = 'tour';//auto refresh row once edit modal closed
 $add = true;
 $edit = true;
-$list = false;
+$list = true;
 $list_method = 'list';
 $sort = 'order by id DESC';
 
@@ -140,7 +140,7 @@ label {width:30%;}
 </div>
 <div class="row">
 	<div class="col-12">
-		<?php if(!$_GET['no_list']) include '../layout/list.php';?>
+		<?php //include '../layout/list.php';?>
 	</div>
 </div>
 

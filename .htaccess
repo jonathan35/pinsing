@@ -26,6 +26,8 @@ RewriteRule ^content/([^/\.]+)?$ index.php?page=$1 [QSA,L]
 RewriteRule ^home?$ index.php [QSA,L]
 RewriteRule ^contact_us?$ contact_us.php [QSA,L]
 RewriteRule ^news?$ news.php [QSA,L]
+
+RewriteRule ^tour_countries?$ tour_countries.php [QSA,L]
 RewriteRule ^tours?$ tours.php [QSA,L]
 RewriteRule ^tours/([^/\.]+)?$ tours.php?country=$1 [QSA,L]
 RewriteRule ^tours/([^/\.]+)/([^/\.]+)?$ tours.php?country=$1&state=$2 [QSA,L]

@@ -83,12 +83,12 @@ if(!empty($_GET['page'])){
     <?php if(!empty($seo_description)){?>
     <meta name="description" content="<?php echo $seo_description?>">
     <?php }?>
-    <?php /*
+    
     <script src="<?php echo ROOT?>js/jquery.min.js"></script>
     <script src="<?php echo ROOT?>js/popper.min.js"></script>
     <script src="<?php echo ROOT?>js/4.3.1/bootstrap.min.js"></script>
     <script src="<?php echo ROOT?>js/bootstrap.min.js"></script>
-    <script src="<?php echo ROOT?>js/jquery-3.5.0.js"></script>*/?>
+    <script src="<?php echo ROOT?>js/jquery-3.5.0.js"></script>
     
 
     <!-- Bootstrap CSS -->

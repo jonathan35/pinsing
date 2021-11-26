@@ -44,22 +44,21 @@ foreach((array)$als as $al){
     <?php include 'header.php';?>
 
 
-    <?php 
-    
-    if(empty($_GET['al'])){
-        $intro = sql_read('select introduction, background_image from album_intro where id=? limit 1' ,'i', 1);?>
+    <?php if(empty($_GET['al'])){
+        $intro = sql_read('select description, background_image from album_intro where id=? limit 1' ,'i', 1);?>
 
         <div class="row">
 
             <div class="col-12" style="background-image:url('<?php echo $intro['background_image']?>'); background-size:cover; background-repeat:no-repeat; background-position:center 45%;">
                 <div class="row">
-                    <div class="col-12 col-md-5 pl-md-5">
+                    <div class="col-12 col-md-4">
                         <div class="row">
-                            <div class="col-12 offset-md-1 flex-center p-5" style="background:rgba(0,0,0,.6); height:440px; font-size:20px; flex-direction:column;">
-                                <h1 style="color:var(--color-main); text-align: left;">Gallery</h1>
-                                <div style="color:white; text-align: left;">
-                                    <?php echo $intro['introduction']?>
-                                </div>
+                            <div class="col-12 flex-center p-5" style="background:rgba(0,0,0,.6); flex-direction:column;">
+                                <?php if(!empty($intro['description'])){?>
+                                    <div style="color:white; text-align: left;">
+                                        <?php echo $intro['description'];?>
+                                    </div>
+                                <?php }?>
                             </div>
                         </div>
                         

@@ -1,4 +1,4 @@
-<form action="<?php echo ROOT?>tours" method="post" class="form-group pt-2" id="search_from" style="margin-top:10px;">
+<form action="<?php echo ROOT?>tours" method="post" class="form-group mb-0" id="search_from">
     <!--<div class="ic-search">
         <i class="fa fa-search"></i>
     </div>-->

@@ -93,7 +93,7 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
 <div id="header">
     <div class="row " style="height:100%;  ">
         <div class="col-3 col-md-1 pr-0 pl-md-5 pr-md-5 pt-0 pl-md-5 text-left text-md-left " id="logo-col">
-            <a href="#<?php echo ROOT?>home" style="color:white; text-align:center; text-decoration:none;">
+            <a href="<?php echo ROOT?>" style="color:white; text-align:center; text-decoration:none;">
                 <img src="<?php echo ROOT?>images/logo.jpg" class="d-none d-md-inline img-fluid logo">
                 <img src="<?php echo ROOT?>images/logo.jpg" class="d-inline d-md-none img-fluid" style="height:60px;">
             <?php /*
@@ -121,7 +121,7 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
                     </div>
                     
                     <div class="pl-4 pr-4" id="tour-menu">
-                        <a href="<?php echo ROOT?>tours" class="lang lang10 <?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && empty($_GET['promo'])){?>actived<?php }?>">TOURS</a>
+                        <a href="<?php echo ROOT?>tour_countries" class="lang lang10 <?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && empty($_GET['promo'])){?>actived<?php }?>">TOURS</a>
                         <div class="sub-menu" id="tour-countries">
                             <div class="sub-menu-inner">
                             <?php 
@@ -210,37 +210,41 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
         <div class="col-2 d-none d-md-flex vbox">
             
         </div>-->
-        <div class="col-6 p-0 col-md-4 vbox pr-4" style="justify-content: right !important;">
+        <div class="col-7 p-0 col-md-4 vbox pr-md-4" style="justify-content: right !important;">
             
         <?php include 'search.php';?>
 
-            <div class="d-inline" style="font-size:14px; border:1px solid #ffbb69; background:#ffbb69; padding:0; text-align:center; border-radius:20px; width:auto; margin:7px; font-weight:bold;">
+            <div class="d-inline m-0 m-md-2" style="font-size:14px; border:1px solid #ffbb69; background:#ffbb69; padding:0; text-align:center; border-radius:20px; width:auto; font-weight:bold;">
                 <a href="<?php echo ROOT?>language_switch.php?language=en" id="en" onclick="language('en')" class="lang-btn">EN</a>
                 <a href="<?php echo ROOT?>language_switch.php?language=cn" id="cn" onclick="language('cn')" class="lang-btn">文</a>
                 
             </div>
             <a href="https://www.facebook.com/pinsingtravel" target="_blank">
-                <img src="<?php echo ROOT?>images/facebook_circle_ffb969_3e332e_48.svg" width="26px" style="margin:4px">
+                <img src="<?php echo ROOT?>images/facebook_circle_ffb969_3e332e_48.svg" width="26px" class="m-1">
             </a>
             <a href="https://wa.me/60138020518" target="_blank">
-                <img src="<?php echo ROOT?>images/whatsapp_circle_ffb969_3e332e_48.svg" width="26px" style="margin:4px">
+                <img src="<?php echo ROOT?>images/whatsapp_circle_ffb969_3e332e_48.svg" width="26px" class="m-1">
             </a>
             <a href="https://www.instagram.com/pinsingtravelofficial/" target="_blank">
-                <img src="<?php echo ROOT?>images/instagram_circle_ffb969_3e332e_48.svg" width="26px" style="margin:4px">
+                <img src="<?php echo ROOT?>images/instagram_circle_ffb969_3e332e_48.svg" width="26px" class="m-1">
             </a>
         
         </div>
         <style>
+            
             .lang-btn {
                 display:inline-block; width:40px; height:25px; cursor:pointer; padding:1px; color:#333; font-size:14px;
             }
             .lang-btn-active {
                 border:1px solid orange; border-radius:15px; background:var(--color-main); 
             }
+            @media (max-width: 575px) {
+                .lang-btn {width:25px;}
+            }
         </style>
         
 
-        <div class="col-2 d-md-none flex-center">
+        <div class="col-1 d-md-none flex-center">
             <button class="navbar-toggler menu-toggler flex-center" type="button" onclick="$('#toggleMenu, .page_title').fadeToggle();">
                 <!--data-toggle="collapse" data-target="#desktopMenu" aria-controls="desktopMenu" aria-expanded="false" aria-label="Toggle navigation"-->
                 <span class="navbar-toggler-icon">
@@ -263,7 +267,7 @@ $current_page = basename($_SERVER["SCRIPT_FILENAME"]);
         </div>
         
         <div class="col-12 p-2" id="tour-menu">
-            <a href="<?php echo ROOT?>tours" class="lang lang10 <?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && empty($_GET['promo'])){?>actived<?php }?>">TOURS</a>
+            <a href="<?php echo ROOT?>tour_countries" class="lang lang10 <?php if(($current_page == 'tours.php' || $current_page == 'tour_details.php') && empty($_GET['promo'])){?>actived<?php }?>">TOURS</a>
             <div class="sub-menu" id="tour-countries">
                 <div class="sub-menu-inner">
                 <?php 

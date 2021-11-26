@@ -78,7 +78,7 @@ if(!empty($_POST['keyword']) && !empty($_POST['user_keyword'])){
 
     <?php include 'header.php';?>
 
-    <?php if(!empty($_GET['promo'])){?>
+    <?php if(!empty($_GET['promo'])){/*?>
         <div class="row mb-5" style="background: orange;">
             <div class="col-12 col-md-5 col-lg-3 offset-md-1 offset-lg-3 p-4 flex-center pt-5 text-center text-md-left" style="height:300px; flex-direction: column;">
                
@@ -97,8 +97,24 @@ if(!empty($_POST['keyword']) && !empty($_POST['user_keyword'])){
                 <!---->
             </div>
         </div>
+    <?php */
+        $intro = sql_read('select description, background_image from album_intro where id=? limit 1' ,'i', 12);?>
 
-    <?php }else{
+        <div class="row">
+
+            <div class="col-12" style="background-image:url('<?php echo $intro['background_image']?>'); background-size:cover; background-repeat:no-repeat; background-position:center 45%;">
+                <div class="row">
+                    <div class="col-12 col-md-5 offset-md-1 col-xl-4 offset-xl-2">
+                        <?php if(!empty($intro['description'])){
+                            echo $intro['description'];
+                        }?>
+                    </div>
+                    <div class="col-6"></div>
+                </div>
+            </div>
+        </div>
+    <?php 
+    }else{
         
         include 'banner.php';
         
@@ -126,7 +142,7 @@ if(!empty($_POST['keyword']) && !empty($_POST['user_keyword'])){
 
 
     <div class="row">
-        <div class="col-12 col-md-10 offset-md-1">
+        <div class="col-12 col-md-10 offset-md-1 pt-5">
             <div class="row">
                 <div class="col-12 pt-4">
                     <div class="tour_list">

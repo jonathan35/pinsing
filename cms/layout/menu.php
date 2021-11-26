@@ -11,6 +11,7 @@
 
   <h4>Content</h4>
   <div class="nav lnav" link="../content/banner">Home Banner</div>
+  <div class="nav lnav" link="../content/home_block">Home Block</div>
   <div class="nav lnav" link="../content/pages">Free-formated Pages <?php if($_SESSION['language'] == 'cn'){ echo ' (文)';}?></div>
 
   <!--
@@ -24,6 +25,7 @@
   <h4>Tour</h4>
   <div class="nav lnav" link="../tour/tour">Tour <?php if($_SESSION['language'] == 'cn'){ echo ' (文)';}?></div>
   <div class="nav lnav" link="../tour/country">Country <?php if($_SESSION['language'] == 'cn'){ echo ' (文)';}?></div>
+  <div class="nav lnav" link="../tour/banner_promo?id=MTI=">Promotion Banner</div>
   <div class="nav lnav" link="../tour/analytic_report">
     Analytic Report
     <span style="font-size:80%; color:red;">new</span>
@@ -42,10 +44,9 @@
 
   
   <h4>Gallery</h4>
-  <div class="nav lnav" link="../gallery/album_intro?id=MQ==">Introduction</div>
+  <div class="nav lnav" link="../gallery/album_intro?id=MQ==">Banner</div>
   <div class="nav lnav" link="../gallery/album">Album</div>
   <div class="nav lnav" link="../gallery/album_photo">Album Photo</div>
-
 
   <h4>Setup</h4>
   <div class="nav lnav" link="../account/email">Email</div>

@@ -437,9 +437,10 @@ h2 {
 }
 @media (max-width: 575px) {
   #search_from {
-    top:-25px;
     height:30px;
-    position: relative;
+    /*top:-25px;
+    
+    position: relative;*/
   }
 }
 
