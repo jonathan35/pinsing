@@ -34,7 +34,7 @@ include_once 'head.php';
                      
                                 <?php 
 
-                                $promos = sql_read("select id, name, price, photo, brief_description from tour where promotion=? order by position asc", 's', array('yes'));
+                                $promos = sql_read("select id, name, price, photo, brief_description from tour where status=? and promotion=? order by position asc", 'is', array(1, 'yes'));
                                 //debug($promos);
                                 $g = $r = 0;
                                 $promotions = array();

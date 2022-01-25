@@ -40,8 +40,8 @@ $msg['Suspend']='Are you sure you want to suspend?';	$db['Suspend']=array('statu
 
 //$unique_validation=array('tier');
 
-$fields = array('id', 'country', 'photo',  'name', 'validity_start', 'validity_end', 'price', 'duration', 'departure', 'physical_level', 'min_travellers', 'promotion', 'position', 'status', 'seo_keyword', 'seo_description', 'full_description');
-//, 'brief_description'//  'state', 'city', 'tour_type',, 'key_facts'
+$fields = array('id', 'country', 'photo',  'name', 'validity_start', 'validity_end', 'price', 'duration', 'departure', 'physical_level', 'min_travellers', 'promotion', 'position', 'status', 'seo_keyword', 'seo_description', 'brief_description' , 'full_description');
+////  'state', 'city', 'tour_type',, 'key_facts'
 
 $value = array();
 $type = array();
@@ -50,7 +50,7 @@ $placeholder = array();
 
 #####Design part#######
 $back = false;// "Back to listing" button, true = enable, false = disable
-$fic_1 = array(0=>array(6, 10), 1 => array(1));//fic = fiels in column, number of fields by column $fic_1 normally for add or edit template
+$fic_1 = array(0=>array(6, 11), 1 => array(1));//fic = fiels in column, number of fields by column $fic_1 normally for add or edit template
 $fic_2 = array('5', '1');//fic = fiels in column, number of fields by column $fic_2 normally for list template
 
 foreach((array)$fields as $field){

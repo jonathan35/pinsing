@@ -20,7 +20,6 @@ RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE] 
 
 
-
 RewriteRule ^content/([^/\.]+)?$ index.php?page=$1 [QSA,L]
 
 RewriteRule ^home?$ index.php [QSA,L]

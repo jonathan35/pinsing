@@ -3,15 +3,15 @@
 class str_convert{
 		
 	function to_url($str) {
-		$f = array(' ', '&', '/', '.', "'");
-		$r = array('-', 'and', 'slash', '_', '\'');
+		$f = array(' ', '&', '/', '.', "'", '+');
+		$r = array('-', 'and', 'slash', '_', '\'', 'plus');
 		$converted_str = urlencode(str_replace($f, $r, $str));
 		return $converted_str;
 	}
 
 	function to_query($str){
-		$f = array("slash", '-', 'and', "'");
-		$r = array('_', '_', '%', "_");
+		$f = array("slash", '-', 'and', "'", 'plus');
+		$r = array('_', '_', '%', "_", '+');
 		//, "../../" --> backdirectoryx2
 		$converted_str = str_replace($f, $r, urldecode($str));
 

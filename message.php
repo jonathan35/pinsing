@@ -8,7 +8,7 @@ if(!empty($_POST['submit']) && !empty($_POST['name']) && !empty($_POST['email'])
         Please fill in captcha.</div>';
     }else{
 
-        $to      = 'enquiry@pinsingtravel.com';
+        //$to      = 'jonathan.wphp@gmail.com';
         $subject = 'Website Enquiry';
         $headers[] = 'From: '.$_SERVER['SERVER_NAME'];
         $headers[] = 'MIME-Version: 1.0';
